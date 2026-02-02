@@ -27,14 +27,22 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v5
-      - name: Set up Node
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # Specify a pnpm version, or use 'latest'
+
+      - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: lts/*
-          cache: 'pnpm'
+          node-version: 20 # Specify your desired Node.js version
+          cache: 'pnpm' # Enable pnpm caching
+
       - name: Install dependencies
         run: pnpm ci
       - name: Build
